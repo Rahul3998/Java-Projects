@@ -1,0 +1,74 @@
+File Name : Linguify.Cloud.RunTime.Configration_v1.2.1.2
+-------------------------------------------------|
+                      Files                            |
+-------------------------------------------------|
+1. LnfyConfig.java
+2. LnfyConfigGeneral.java
+3. LnfyConfigWithArgs.java
+4. LnfyConfigWithUI.java
+5. SocketClient.java
+-------------------------------------------------|
+           Working of the Files               |
+-------------------------------------------------|
+
+=========================================================================================================================================
+							5. SocketClient.java
+=========================================================================================================================================
+1. Locking Mechanism : This class uses a ReentrantLock named lock to implement locking for thread safety.
+2. Constructor : The class has a constructor that initializes the lock with a new instance of ReentrantLock.
+3. sendMsgToServer Method :
+	- This is the main method for sending a message to the server.
+	- It takes three parameters: szIPAdd (IP address of the server), iPort (port number), and szMsg (message to be sent to the server).
+	- It returns a string, presumably the response from the server.
+4. Socket Communication :
+	- Inside the sendMsgToServer method, a socket connection is established with the server using the provided IP address and port.
+	- The message (szMsg) is sent to the server using an OutputStream and a DataOutputStream.
+	- The response from the server is read using an InputStream and a DataInputStream.
+	- The response is stored in the szOutData variable.
+5. Lock Usage :
+	- Before attempting to establish a socket connection, the method tries to obtain a lock with a 10-millisecond timeout using lock.tryLock(10, TimeUnit.MILLISECONDS). This is likely to prevent multiple threads from trying to establish a connection simultaneously.
+	- If the lock is successfully acquired, the socket connection is established, and the message is sent to the server.
+6. Exception Handling : The code has commented out exception handling code (e.g., catch blocks for SocketTimeoutException, InterruptedException, and IOException) that could be used for error handling.
+7. Cleanup : There is a finally block that attempts to close the socket, output stream, and input stream. However, this code is currently commented out, and it appears that exception handling is also commented out in this part of the code.
+8. Return Value : The method returns the server's response (or null in case of exceptions).
+9. Lock Release : The lock.unlock() method is called in the finally block to release the lock once the communication is done.
+
+=========================================================================================================================================
+							3. LnfyConfigWithArgs.java
+=========================================================================================================================================
+1. LnfyConfigWithArgs Constructor : This is the class constructor. It creates an instance of the LnfyConfigGeneral class and assigns it to the objLnfyConfigGeneral variable.
+2. setLogLevel Method : 
+- This method takes an array of strings (szInArgs) as input.
+- It processes the command-line arguments to set the log level (-LogLevel) based on the provided arguments.
+- It splits each argument by the '=' character and checks if it matches -LogLevel. If so, it sets the log level value.
+- There are commented-out sections that seem to be related to logging and error handling.
+3. Instance Variables : 
+- objLnfyConfigGeneral: An instance variable of type LnfyConfigGeneral.
+- szTranslatorPort, szTranslatorIPAdd, szTranslatorOparationType, and szTranslatorMsg: These are instance variables for storing various values related to a translator configuration.
+4. setAndProcessWithArgs Method : 
+- This method takes an array of strings (szInArgs) as input.
+- It processes the provided command-line arguments to set values for szTranslatorPort, szTranslatorIPAdd, szTranslatorOparationType, and szTranslatorMsg.
+- It then performs validation on the IP address and port number and based on the szTranslatorOparationType, it sends different messages to some external components. The results of these operations are printed to the console.
+- There are comments related to error handling and logging.
+=========================================================================================================================================
+							4. LnfyConfigWithUI.java
+=========================================================================================================================================
+1. showMyMessage(String szInShowMsg) : Displays a message dialog box with the specified message.
+2. SelectComboBox_SelEvent() : Handles the selection of an item from a combo box and updates the UI elements accordingly based on the selected operation type.
+3. PressBtn_Refresh() : Clears input fields and resets the UI to an initial state.
+4. PressBtn_Close() : Closes the application by calling System.exit(0).
+5. PressBtn_MsgSend() : Sends a message to a specified IP address and port, with validation for IP address and port.
+6. PressBtn_ReloadConfig() : Reloads the configuration by sending a message to a specified IP address and port, with validation for IP address and port.
+7. PressBtn_OK() : Performs different actions based on the selected operation type, such as sending a message or reloading the configuration, with input validation.
+8. BrowseAndGetFileNameAndData() : Opens a file dialog for selecting a file and then reads and displays the content of the selected file in a text area.
+9. TestConnection() : Tests the connection to a specified IP address and port, with validation for IP address and port.
+10. SetStartUpConfig() : Sets the initial configuration for the UI, disabling certain buttons and UI elements.
+=========================================================================================================================================
+							2. LnfyConfigGeneral.java
+=========================================================================================================================================
+1. readFile(String filepath): This method reads the contents of a file specified by the filepath parameter. It uses a Scanner to read the file's contents and return them as a single string.
+2. readFile__(String filepath): This method is similar to the previous readFile method, but it uses a BufferedReader to read the file's contents instead of a Scanner.
+3. sendTestConnectionMsgToParser(String szInIpAddress, int iInPortNo): This method sends a test connection message to a server specified by the IP address and port number. It creates a SocketClient object and sends the message "##TESTCONNECTION##LNEND##" to the server. It returns the server's response as a string.
+4. sendReLoadMsgToParser(String szInIpAddress, int iInPortNo): This method sends a series of messages to the server to initiate a release process. It sends messages "##LNRELEASEPROCESSSTART####LNEND##," "##LNRELEASEPROCESSUPDATING####LNEND##," and "##LNRELEASEPROCESSEND####LNEND##" in sequence. It returns the server's response as a string.
+5. sendSpecificMsgToParser(String szInIpAddress, int iInPortNo, String szInMsg): This method allows sending a specific message szInMsg to the server specified by the IP address and port number. It returns the server's response as a string.
+6. validate_IpAddress(String ip): This method uses a regular expression pattern to validate whether a given string ip is a valid IP address. It returns a boolean indicating whether the IP address is valid.
