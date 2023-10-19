@@ -1,0 +1,11 @@
+<note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don't forget me this weekend!</body>
+</note>
+
+<xml>
+<number>221222</number>
+<name>XYZ</name>
+</xml>
