@@ -1,9 +1,0 @@
-
-"-TransPort"		//6001
-"-TransIP"			//192.168.2.19
-"-OparationType"	//ReloadConfigration , TestConnection , Message
-"-Msg"				// ##TESTCONNECTION##LNEND##    // Optional for ReloadConfigration , TestConnection
-
--TransPort=6008 -TransIP=192.168.2.19 -OparationType=TestConnection
--TransPort=6008 -TransIP=192.168.2.19 -OparationType=ReloadConfigration
--TransPort=6008 -TransIP=192.168.2.19 -OparationType=Message -Msg=##TESTCONNECTION##LNEND##
